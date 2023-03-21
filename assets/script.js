@@ -1,4 +1,4 @@
-var mainEl = document.querySelector('main');
+var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector("#start-btn");
 var timerEl = document.querySelector("#time-el");
 
