@@ -1,6 +1,7 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector("#start-btn");
 var timerEl = document.querySelector("#time-el");
+//var questionTag =  document.querySelector("#questionTag");
 
 var interval;
 var time = 100;
@@ -20,11 +21,12 @@ var questions = [
 
     }
 ];
+var btnDivEl = document.createElement("div");
 
 function displayQuestion(){
     mainEl.innerHTML = "";
 
-    if (questionsIndex >= questions.length) {
+    if ((questionsIndex +1) >= questions.length) {
         endGame();
         return;
     }
@@ -33,7 +35,6 @@ function displayQuestion(){
     h1El.textContent = questions[questionsIndex].questionText;
     mainEl.appendChild(h1El);
    
-    var btnDivEl = document.createElement("div");
     mainEl.appendChild(btnDivEl);
 
     var pEl = document.createElement( 'p');
@@ -44,22 +45,29 @@ function displayQuestion(){
     btnDivEl.addEventListener("click", function (event) {
         var target= event.target;
 
-        if (target.getAttribute("class") !== 'btn') return;
+        //console.log(target)
+        //if (target.getAttribute("class") !== 'btn') return;
 
         var clickedQuestionIndex = parseInt(target.getAttribute("data-index"));
 
         console.log(clickedQuestionIndex);
         if (clickedQuestionIndex === questions[questionsIndex].correctAnswer) {
+        
             lastQuestionCorrect = "Correct"
 
         } else {
             time = time - 10;
             lastQuestionCorrect = "Incorrect"
         }
+       
+        questionsIndex++; 
+      
 
-        questionsIndex++;
+       // displayQuestion();
+       //nexQuestion(questionsIndex);
+       h1El.textContent = questions[questionsIndex].questionText;
 
-        displayQuestion();
+       
 
 
     });
@@ -71,7 +79,11 @@ function displayQuestion(){
         btnDivEl.appendChild(buttonEl);
     }
 
+    //do a check to see if no more questions need to be answered then display the highscore page
+    //location.hred = 'path to highcore.html'
+
 };
+
 
 startBtnEl.addEventListener("click", function (event) {
     mainEl.innerHTML = "";
@@ -92,5 +104,7 @@ startBtnEl.addEventListener("click", function (event) {
 
 function endGame() {
     clearInterval(interval);
+    mainEl.innerHTML = "";
+
 
 };
