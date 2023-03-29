@@ -4,29 +4,30 @@ var timerEl = document.querySelector("#time-el");
 //var questionTag =  document.querySelector("#questionTag");
 
 var interval;
-var time = 100;
+var time = 10;
 var questionsIndex = 0;
 var lastQuestionCorrect  = '';
+var score =0;
 
 var questions = [
     {
         questionText: "Do you like iceCream?",
         questionChoices: ["yes", "no"],
-        correctAnswer: 0
+        correctAnswer: 0,
     },
     {
         questionText: "Do you like pizza?",
         questionChoices: ["yes", "no"],
-        correctAnswer: 0
+        correctAnswer: 0,
 
-    }
+    },
 ];
 var btnDivEl = document.createElement("div");
 
-function displayQuestion(){
+function displayQuestion() {
     mainEl.innerHTML = "";
 
-    if ((questionsIndex +1) >= questions.length) {
+    if (questionsIndex >= questions.length) {
         endGame();
         return;
     }
@@ -37,7 +38,7 @@ function displayQuestion(){
    
     mainEl.appendChild(btnDivEl);
 
-    var pEl = document.createElement( 'p');
+    var pEl = document.createElement("p");
     pEl.textContent = lastQuestionCorrect;
     mainEl.appendChild(pEl);
 
@@ -45,31 +46,27 @@ function displayQuestion(){
     btnDivEl.addEventListener("click", function (event) {
         var target= event.target;
 
-        //console.log(target)
-        //if (target.getAttribute("class") !== 'btn') return;
 
         var clickedQuestionIndex = parseInt(target.getAttribute("data-index"));
 
         console.log(clickedQuestionIndex);
+
         if (clickedQuestionIndex === questions[questionsIndex].correctAnswer) {
         
-            lastQuestionCorrect = "Correct"
+            lastQuestionCorrect = "Correct";
+            score++;
 
         } else {
             time = time - 10;
-            lastQuestionCorrect = "Incorrect"
+            lastQuestionCorrect = "Incorrect";
         }
        
+        console.log("score -", score);
         questionsIndex++; 
       
-
-       // displayQuestion();
-       //nexQuestion(questionsIndex);
        h1El.textContent = questions[questionsIndex].questionText;
 
        
-
-
     });
 
     for (var i = 0; i < questions [questionsIndex].questionChoices.length; i++) {
@@ -79,10 +76,7 @@ function displayQuestion(){
         btnDivEl.appendChild(buttonEl);
     }
 
-    //do a check to see if no more questions need to be answered then display the highscore page
-    //location.hred = 'path to highcore.html'
-
-};
+}
 
 
 startBtnEl.addEventListener("click", function (event) {
@@ -104,7 +98,5 @@ startBtnEl.addEventListener("click", function (event) {
 
 function endGame() {
     clearInterval(interval);
-    mainEl.innerHTML = "";
-
-
-};
+    mainEl.innerHTML = `CONGRATULATIONS!! YOUR SCORE IS ${score}`;
+}
